@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Stress Test Page</title>
+    <link rel="stylesheet" href="./style/style.css">
+    <link rel="icon" type="image/x-icon" href="/img/cpu.png">
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Welcome to Stress Test</h1>
+        <p>Use the controls below to start the test and adjust the load.</p>
+        <div id="gauge_div"></div>
+        
+        <div class="volume-control">
+            <button onclick="decreaseLoad()">&#x2212;</button>
+            <input type="range" id="loadSlider" class="slider" min="1" max="100" value="10" oninput="adjustLoad(this.value)">
+            <button onclick="increaseLoad()">&#x2b;</button>
+        </div>
+        
+        <p>Load: <span id="loadDisplay">10</span>%</p>
+        <button id="stressButton" class="button" onclick="toggleStressTest()">Start Stress Test</button>
+        <p id="status">Status: Not Running</p>
+    </div>
+    <script src="./js/index.js"></script>
+</body>
+
+</html>
