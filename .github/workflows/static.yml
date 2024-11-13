@@ -19,10 +19,11 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
 
+    steps:
+      # Checkout the repository
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Setup Apache Server (for local testing)
         run: |
           sudo apt update
@@ -30,10 +31,10 @@ jobs:
           sudo systemctl start apache2
           sudo systemctl enable apache2
           sudo cp -r website/* /var/www/html/
-          sudo rm /var/www/html/README.md
+          sudo bash -c 'echo "<IfModule mod_dir.c>" > /etc/apache2/mods-enabled/dir.conf'
+          sudo bash -c 'echo "    DirectoryIndex index.html" >> /etc/apache2/mods-enabled/dir.conf'
           sudo systemctl restart apache2
         if: github.ref == 'refs/heads/main'
-
       - name: Setup Pages (GitHub Pages deployment)
         uses: actions/configure-pages@v5
 
@@ -41,7 +42,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: 'website'
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
