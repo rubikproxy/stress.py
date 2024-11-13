@@ -30,18 +30,25 @@ jobs:
           sudo apt install apache2 -y
           sudo systemctl start apache2
           sudo systemctl enable apache2
-          sudo cp -r website/* /var/www/html/
+          
+          # Copy all files (index.html, js, py, style) to Apache's root directory
+          sudo cp -r * /var/www/html/
+          
+          # Set Apache configuration to use index.html as the default
           sudo bash -c 'echo "<IfModule mod_dir.c>" > /etc/apache2/mods-enabled/dir.conf'
           sudo bash -c 'echo "    DirectoryIndex index.html" >> /etc/apache2/mods-enabled/dir.conf'
           sudo systemctl restart apache2
         if: github.ref == 'refs/heads/main'
+
+      # Setup Pages for GitHub Pages deployment
       - name: Setup Pages (GitHub Pages deployment)
         uses: actions/configure-pages@v5
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'website'
+          path: '.'
+
+      # Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
