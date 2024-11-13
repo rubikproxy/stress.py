@@ -20,7 +20,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Apache Server (for local testing)
@@ -30,6 +30,7 @@ jobs:
           sudo systemctl start apache2
           sudo systemctl enable apache2
           sudo cp -r website/* /var/www/html/
+          sudo rm /var/www/html/README.md
           sudo systemctl restart apache2
         if: github.ref == 'refs/heads/main'
 
